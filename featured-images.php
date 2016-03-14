@@ -303,7 +303,7 @@ final class Featured_Images {
 		wp_enqueue_script( 'featured-images-editor' );
 
 		// Append styles
-		wp_add_inline_style( 'common', "
+		wp_add_inline_style( 'wp-admin', "
 			#featured-images .current { margin: 8px 0; }
 			#featured-images .upload-button { white-space: normal; width: 50%; height: auto; float: " . ( is_rtl() ? 'left' : 'right' ) . "; }
 			#featured-images .current .container { overflow: hidden; -webkit-border-radius: 2px; border: 1px solid transparent; -webkit-border-radius: 2px; border-radius: 2px; min-height: 40px; }
