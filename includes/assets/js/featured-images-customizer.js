@@ -13,8 +13,6 @@
 	    Library = media.controller.Library,
 	    l10n = media.view.l10n;
 
-	/** Featured Images Customizer Control */
-
 	/**
 	 * A control for uploading gallery images
 	 *
@@ -131,8 +129,9 @@
 		}
 	});
 
+	// Add to the list of controls
 	$.extend( api.controlConstructor, {
-		'featured_images': api.FeaturedImagesControl,
+		'featured_images': api.FeaturedImagesControl
 	});
 
 })( wp, jQuery );
