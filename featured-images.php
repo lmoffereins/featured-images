@@ -314,6 +314,9 @@ final class Featured_Images {
 			#featured-images .attachment-media-view:nth-child(4n) { margin-right: 0; }
 			#featured-images .thumbnail-image { line-height: 0; }
 			#featured-images img { cursor: pointer; max-width: 100%; -webkit-border-radius: 2px; border-radius: 2px; }
+			#featured-images .thumbnail-more { display: block; max-width: 150px; height: inherit; padding: inherit; -webkit-border-radius: 2px; border-radius: 2px; box-shadow: none; }
+			#featured-images .thumbnail-more:before { content: ''; display: inline-block; padding-top: 100%; vertical-align: middle; }
+			#featured-images .thumbnail-more .more-count { display: inline-block; width: 100%; vertical-align: middle; margin-left: -4px; text-align: center; font-size: 2em; cursor: pointer; }
 			"
 		);
 	}

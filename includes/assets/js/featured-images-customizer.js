@@ -36,6 +36,9 @@
 
 			_.bindAll( this, 'removeSelection' );
 
+			// Bind event to open the frame on .thumbnail-more
+			this.container.on( 'click keydown', '.thumbnail-more', this.openFrame );
+
 			// Bind event to remove attachments. Remove parent event.
 			this.container.off( 'click keydown', '.remove-button', this.removeFile );
 			this.container.on(  'click keydown', '.remove-button', this.removeSelection );

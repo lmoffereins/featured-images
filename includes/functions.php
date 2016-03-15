@@ -116,7 +116,7 @@ function featured_images_post_metabox( $post, $echo = true ) {
 	<div class="current">
 		<div class="container">
 
-			<?php foreach ( $images as $attachment ) : ?>
+			<?php foreach ( $images as $i => $attachment ) : ?>
 			<div class="attachment-media-view attachment-media-view-<?php echo $attachment['type']; ?> <?php echo $attachment['orientation']; ?>">
 				<div class="thumbnail thumbnail-<?php echo $attachment['type']; ?>">
 					<?php if ( $attachment['sizes'] && isset( $attachment['sizes']['thumbnail'] ) ) : ?>
@@ -126,6 +126,16 @@ function featured_images_post_metabox( $post, $echo = true ) {
 					<?php endif; ?>
 				</div>
 			</div>
+
+			<?php // Do not display more than 12 (3 * 4) thumbs ?>
+			<?php if ( 10 == $i && count( $images ) > 12 ) : ?>
+			<div class="attachment-media-view attachment-media-view-more">
+				<div class="thumbnail thumbnail-more button-primary">
+					<span class="more-count">+<?php echo ( count( $images ) - 11 ); ?></span>
+				</div>
+			</div>
+			<?php break; endif; ?>
+
 			<?php endforeach; ?>
 		</div>
 	</div>

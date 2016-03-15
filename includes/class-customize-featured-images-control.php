@@ -114,6 +114,9 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 			.customize-control-{$this->type} .attachment-media-view { width: 24.25%; margin: 0 1% 1% 0; float: left; }
 			.customize-control-{$this->type} .attachment-media-view:nth-child(4n) { margin-right: 0; }
 			.customize-control-{$this->type} img { -webkit-border-radius: 2px; border-radius: 2px; }
+			.customize-control-{$this->type} .thumbnail-more { display: block; height: inherit; max-width: 150px; padding: inherit; -webkit-border-radius: 2px; border-radius: 2px; box-shadow: none; }
+			.customize-control-{$this->type} .thumbnail-more:before { content: ''; display: inline-block; padding-top: 100%; vertical-align: middle; }
+			.customize-control-{$this->type} .thumbnail-more .more-count { display: inline-block; width: 100%; vertical-align: middle; margin-left: -4px; text-align: center; font-size: 2em; cursor: pointer; }
 			"
 		);
 	}
@@ -176,7 +179,7 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 			<div class="current">
 				<div class="container">
 
-					<# _.each( data.attachments, function( att ) { #>
+					<# _.find( data.attachments, function( att, i ) { #>
 					<div class="attachment-media-view attachment-media-view-{{ att.type }} {{ att.orientation }}">
 						<div class="thumbnail thumbnail-{{ att.type }}">
 							<# if ( att.sizes && att.sizes.thumbnail ) { #>
@@ -186,6 +189,15 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 							<# } #>
 						</div>
 					</div>
+
+					<# if ( 10 == i && data.attachments.length > 12 ) { #>
+					<div class="attachment-media-view attachment-media-view-more">
+						<div class="thumbnail thumbnail-more button-primary">
+							<span class="more-count">+{{ data.attachments.length - 11 }}</span>
+						</div>
+					</div>
+					<# return true; }; #>
+
 					<# }); #>
 				</div>
 			</div>
