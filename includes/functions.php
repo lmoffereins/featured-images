@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @uses get_post_meta()
  * @uses apply_filters() Calls 'get_featured_images'
  *
  * @param int|WP_Post $object Optional. Object ID or post object. Defaults to current post.
@@ -49,9 +48,6 @@ function get_featured_images( $object = null, $type = 'post' ) {
  * Redefine the object's featured images
  *
  * @since 1.0.0
- *
- * @uses delete_post_meta()
- * @uses add_post_meta()
  *
  * @param int|array $images Optional. New featured images. Attachment ID or array thereof.
  *                          Defaults to an empty array which effectively deletes all references.
@@ -89,13 +85,12 @@ function set_featured_images( $images = array(), $object = null, $type = 'post' 
 	return true;
 }
 
+/** Admin *********************************************************************/
+
 /**
  * Display the contents of the Featured Images post metabox
  *
  * @since 1.0.0
- *
- * @uses get_featured_images()
- * @uses wp_prepare_attachment_for_js()
  *
  * @param WP_Post $post Post object
  * @param bool $echo Optional. Whether to echo the metabox content.

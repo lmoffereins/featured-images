@@ -148,8 +148,6 @@ final class Featured_Images {
 	 * @since 1.0.0
 	 *
 	 * @uses apply_filters() Calls 'plugin_locale' with {@link get_locale()} value
-	 * @uses load_textdomain() To load the textdomain
-	 * @uses load_plugin_textdomain() To load the textdomain
 	 */
 	public function load_textdomain() {
 
@@ -178,9 +176,8 @@ final class Featured_Images {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @uses wp_register_script()
-	 * @uses wp_localize_script()
-	 * @uses wp_enqueue_script()
+	 * @uses apply_filters() Calls 'featured_images_media_l10n'
+	 * @uses apply_filters() Calls 'featured_images_editor_l10n'
 	 */
 	public function register_scripts() {
 
@@ -216,9 +213,6 @@ final class Featured_Images {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @uses Featured_Images::post_type_supports()
-	 * @uses get_featured_images()
-	 *
 	 * @param array $settings Media settings
 	 * @param WP_Post $post Post object
 	 * @return array Media settings
@@ -239,7 +233,6 @@ final class Featured_Images {
 	 * 
 	 * @since 1.0.0
 	 *
-	 * @uses WP_Customize_Manger::register_control_type()
 	 * @param WP_Customize_Manger $wp_customize
 	 */
 	public function customizer( $wp_customize ) {
@@ -253,9 +246,6 @@ final class Featured_Images {
 	 * Return whether the given post type supports Featured Images
 	 *
 	 * @since 1.0.0
-	 *
-	 * @uses is_post_type_viewable() WP 4.4+
-	 * @uses get_post_type_object()
 	 *
 	 * @param string $post_type Optional. Post type.
 	 * @return bool Post type supports featured images
@@ -271,7 +261,7 @@ final class Featured_Images {
 		if ( 'attachment' == $post_type )
 			return false;
 
-		// Base support on viewability
+		// Base support on viewability, since WP 4.4+
 		$supports = is_post_type_viewable( get_post_type_object( $post_type ) );
 
 		return $supports;
@@ -281,11 +271,6 @@ final class Featured_Images {
 	 * Register the Featured Images post metabox
 	 *
 	 * @since 1.0.0
-	 *
-	 * @uses Featured_Images::post_type_supports()
-	 * @uses add_meta_box()
-	 * @uses wp_enqueue_script()
-	 * @uses wp_add_inline_style()
 	 *
 	 * @param string $post_type Post type name
 	 * @param WP_Post $post Post object
@@ -326,14 +311,9 @@ final class Featured_Images {
 	/**
 	 * Update an object's featured images through AJAX
 	 *
-	 * @since 1.0.0
-	 *
 	 * @see wp_ajax_set_post_thumbnail()
 	 *
-	 * @uses check_ajax_referer()
-	 * @uses set_featured_images()
-	 * @uses Featured_Images::ajax_get_return_message()
-	 * @uses wp_send_json_success()
+	 * @since 1.0.0
 	 *
 	 * @param int $object_id Object ID
 	 * @param string $type Object type
@@ -385,8 +365,6 @@ final class Featured_Images {
 	 * Return the AJAX return message
 	 *
 	 * @since 1.0.0
-	 *
-	 * @uses featured_images_post_metabox()
 	 *
 	 * @param int $object Object ID
 	 * @param string $type Object type

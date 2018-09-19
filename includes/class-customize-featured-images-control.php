@@ -72,7 +72,6 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 	 * Constructor.
 	 *
 	 * @since 3.4.0
-	 * @uses WP_Customize_Upload_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
@@ -124,12 +123,9 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 	/**
 	 * Refresh the parameters passed to the Javascript via JSON
 	 *
-	 * @since 1.0.0
-	 *
 	 * @see WP_Customize_Control::to_json()
 	 *
-	 * @uses Customize_Featured_Images_Control::get_current_images()
-	 * @uses wp_prepare_attachment_for_js()
+	 * @since 1.0.0
 	 */
 	public function to_json() {
 
@@ -149,10 +145,13 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 		$this->json['maxWidth']  = absint( $this->max_width );
 		$this->json['maxHeight'] = absint( $this->max_height );
 
+		// Get the selected attachments
 		$value = $this->get_current_attachments();
 
+		// Prepare attachments and return in json
 		if ( is_object( $this->setting ) && $value ) {
 			$attachments = array_filter( array_map( 'wp_prepare_attachment_for_js', $value ) );
+
 			if ( ! empty( $attachments ) ) {
 				$this->json['attachments'] = $attachments;
 			}
@@ -235,11 +234,14 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @uses attachment_url_to_postid()
 	 * @return array Selected attachment ids
 	 */
 	public function get_current_attachments() {
+
+		// Define return variable
 		$attachments = array();
+
+		// Get the selected attachment ids
 		foreach ( (array) $this->value() as $attachment_id ) {
 			$attachments[] = ! is_numeric( $attachment_id ) ? attachment_url_to_postid( $attachment_id ) : (int) $attachment_id;
 		}
