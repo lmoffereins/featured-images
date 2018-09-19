@@ -79,6 +79,7 @@ final class Featured_Images {
 		/** Versions **********************************************************/
 
 		$this->version      = '1.0.1';
+		$this->db_version   = 20180918;
 
 		/** Paths *************************************************************/
 
@@ -108,6 +109,7 @@ final class Featured_Images {
 	 */
 	private function includes() {
 		require( $this->includes_dir . 'functions.php' );
+		require( $this->includes_dir . 'update.php'    );
 	}
 
 	/**
@@ -132,6 +134,11 @@ final class Featured_Images {
 
 		// Ajax
 		add_action( 'wp_ajax_set_featured_images', array( $this, 'ajax_set_featured_images' ) );
+
+		// Admin
+		if ( is_admin() ) {
+			add_action( 'admin_init', 'featured_images_setup_updater', 999 );
+		}
 	}
 
 	/** Plugin **********************************************************/

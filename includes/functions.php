@@ -10,6 +10,70 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
+/** Versions ******************************************************************/
+
+/**
+ * Output the plugin version
+ *
+ * @since 1.1.0
+ */
+function featured_images_version() {
+	echo featured_images_get_version();
+}
+
+	/**
+	 * Return the plugin version
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string The plugin version
+	 */
+	function featured_images_get_version() {
+		return featured_images()->version;
+	}
+
+/**
+ * Output the plugin database version
+ *
+ * @since 1.1.0
+ */
+function featured_images_db_version() {
+	echo featured_images_get_db_version();
+}
+
+	/**
+	 * Return the plugin database version
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string The plugin version
+	 */
+	function featured_images_get_db_version() {
+		return featured_images()->db_version;
+	}
+
+/**
+ * Output the plugin database version directly from the database
+ *
+ * @since 1.1.0
+ */
+function featured_images_db_version_raw() {
+	echo featured_images_get_db_version_raw();
+}
+
+	/**
+	 * Return the plugin database version directly from the database
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return string The current plugin version
+	 */
+	function featured_images_get_db_version_raw() {
+		return get_option( 'featured_images_db_version', '' );
+	}
+
+/** Get|Set *******************************************************************/
+
 /**
  * Return the object's featured images
  *
