@@ -93,6 +93,10 @@ final class Featured_Images {
 		$this->includes_dir = trailingslashit( $this->plugin_dir . 'includes' );
 		$this->includes_url = trailingslashit( $this->plugin_url . 'includes' );
 
+		// Assets
+		$this->assets_dir   = trailingslashit( $this->plugin_dir . 'assets' );
+		$this->assets_url   = trailingslashit( $this->plugin_url . 'assets' );
+
 		// Languages
 		$this->lang_dir     = trailingslashit( $this->plugin_dir . 'languages' );
 
@@ -189,7 +193,7 @@ final class Featured_Images {
 	public function register_scripts() {
 
 		// Media
-		wp_register_script( 'featured-images-media', $this->includes_url . 'assets/js/featured-images-media.js', array( 'jquery', 'media-models', 'media-views' ), $this->version, true );
+		wp_register_script( 'featured-images-media', $this->assets_url . 'js/featured-images-media.js', array( 'jquery', 'media-models', 'media-views' ), $this->version, true );
 		wp_localize_script( 'featured-images-media', 'featuredImagesMedia', apply_filters( 'featured_images_media_l10n', array(
 			'l10n' => array(
 				'frameTitle'  => __( 'Select Images', 'featured-images' ),
@@ -198,10 +202,10 @@ final class Featured_Images {
 		) ) );
 
 		// Customizer
-		wp_register_script( 'featured-images-customizer', $this->includes_url . 'assets/js/featured-images-customizer.js', array( 'jquery', 'customize-controls', 'featured-images-media' ), $this->version, true );
+		wp_register_script( 'featured-images-customizer', $this->assets_url . 'js/featured-images-customizer.js', array( 'jquery', 'customize-controls', 'featured-images-media' ), $this->version, true );
 
 		// Editor
-		wp_register_script( 'featured-images-editor', $this->includes_url . 'assets/js/featured-images-editor.js', array( 'jquery', 'featured-images-media' ), $this->version, true );
+		wp_register_script( 'featured-images-editor', $this->assets_url . 'js/featured-images-editor.js', array( 'jquery', 'featured-images-media' ), $this->version, true );
 		wp_localize_script( 'featured-images-editor', 'featuredImagesEditor', apply_filters( 'featured_images_editor_l10n', array(
 			'l10n' => array(
 				'frameTitle' => __( 'Select Featured Images', 'featured-images' ),
