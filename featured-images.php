@@ -244,8 +244,10 @@ final class Featured_Images {
 	 */
 	public function customizer( $wp_customize ) {
 
+		// Load control type class
+		require_once( $this->includes_dir . 'classes/class-customize-featured-images-control.php' );
+
 		// Register Featured Images control type
-		require_once( $this->includes_dir . 'class-customize-featured-images-control.php' );
 		$wp_customize->register_control_type( 'Customize_Featured_Images_Control' );
 	}
 
