@@ -58,12 +58,15 @@
 			// Setup the media modal frame
 			this.frame = new media.view.MediaFrame.FeaturedImagesFrame({
 				button: {
-					text: featuredImagesMedia.l10n.frameButton
+					text: this.params.button_labels.frame_button
 				},
 				states: [
 
 					// Display the media browser state
 					new media.controller.FeaturedImagesCustomizerLibrary({
+
+						// Override frame title
+						title: this.params.button_labels.frame_title,
 
 						// Query the requested media items
 						library: new media.model.FeaturedImagesQuery( null, {

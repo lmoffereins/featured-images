@@ -78,14 +78,21 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
-		parent::__construct( $manager, $id, $args );
-
-		$this->button_labels = array(
-			'select'       => __( 'Select Images', 'featured-images' ),
-			'change'       => __( 'Change Selection', 'featured-images' ),
-			'remove'       => __( 'Remove All', 'featured-images' ),
-			'placeholder'  => __( 'No images selected', 'featured-images' ),
+		$default_labels = array(
+			'select'       => esc_html__( 'Select images', 'featured-images' ),
+			'change'       => esc_html__( 'Change images', 'featured-images' ),
+			'default'      => esc_html__( 'Default', 'featured-images' ),
+			'remove'       => esc_html__( 'Remove all', 'featured-images' ),
+			'placeholder'  => esc_html__( 'No images selected', 'featured-images' ),
+			'frame_title'  => esc_html__( 'Select images', 'featured-images' ),
+			'frame_button' => esc_html__( 'Choose images', 'featured-images' )
 		);
+
+		// Ensure that the labels contain all required default values.
+		$args = wp_parse_args( $args, array( 'button_labels' => array() ) );
+		$args['button_labels'] = array_merge( (array) $default_labels, (array) $args['button_labels'] );
+
+		parent::__construct( $manager, $id, $args );
 	}
 
 	/**
