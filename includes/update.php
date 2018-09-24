@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Econozel Updater
+ * Featured Images Updater
  *
- * @package Econozel
+ * @package Featured Images
  * @subpackage Updater
  */
 
@@ -144,7 +144,7 @@ function featured_images_is_deactivation( $basename = '' ) {
  * @since 1.1.0
  */
 function featured_images_version_bump() {
-	update_site_option( 'featured_images_db_version', featured_images_get_db_version() );
+	update_option( 'featured_images_db_version', featured_images_get_db_version() );
 }
 
 /**
