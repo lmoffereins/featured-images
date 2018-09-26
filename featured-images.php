@@ -126,18 +126,15 @@ final class Featured_Images {
 		// Load textdomain
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
-		// Scripts
-		add_action( 'wp_loaded', array( $this, 'register_scripts' ) );
+		// Scripts & Customizer
+		add_action( 'wp_loaded',           array( $this, 'register_scripts'    )        );
+		add_filter( 'media_view_settings', array( $this, 'media_settings'      ), 10, 2 );
+		add_action( 'customize_register',  array( $this, 'customizer_register' ),  5    );
 
-		// UI
-		add_action( 'customize_register', array( $this, 'customizer'       ),  5    );
-		add_action( 'add_meta_boxes',     array( $this, 'post_add_metabox' ), 10, 2 );
-
-		// Media
-		add_filter( 'media_view_settings', array( $this, 'media_settings' ), 10, 2 );
-
-		// Ajax
-		add_action( 'wp_ajax_set_featured_images', array( $this, 'ajax_set_featured_images' ) );
+		// Post
+		add_action( 'add_meta_boxes',              array( $this, 'post_add_metabox'         ), 10, 2 );
+		add_action( 'registered_post_type',        array( $this, 'registered_post_type'     ), 10, 2 );
+		add_action( 'wp_ajax_set_featured_images', array( $this, 'ajax_set_featured_images' )        );
 
 		// Admin
 		if ( is_admin() ) {
@@ -231,7 +228,7 @@ final class Featured_Images {
 	public function media_settings( $settings, $post ) {
 
 		// Add featured images to the post's media settings
-		if ( is_a( $post, 'WP_Post' ) && $this->post_type_supports( $post->post_type ) ) {
+		if ( is_a( $post, 'WP_Post' ) && post_type_supports( $post->post_type, 'featured-images' ) ) {
 			$images = get_featured_images( $post, 'post' );
 			$settings['post']['featuredImages'] = $images ? $images : -1;
 		}
@@ -246,7 +243,7 @@ final class Featured_Images {
 	 *
 	 * @param WP_Customize_Manger $wp_customize
 	 */
-	public function customizer( $wp_customize ) {
+	public function customizer_register( $wp_customize ) {
 
 		// Load control type class
 		require_once( $this->includes_dir . 'classes/class-customize-featured-images-control.php' );
@@ -256,28 +253,24 @@ final class Featured_Images {
 	}
 
 	/**
-	 * Return whether the given post type supports Featured Images
+	 * Add plugin post type support when the post type is registered
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $post_type Optional. Post type.
-	 * @return bool Post type supports featured images
+	 * @param string $post_type Post type name
+	 * @param WP_Post_Type $post_type_object Post type object
 	 */
-	public function post_type_supports( $post_type = '' ) {
+	public function registered_post_type( $post_type, $post_type_object ) {
 
-		// Default to the current post type
-		if ( empty( $post_type ) ) {
-			$post_type = get_post_type();
-		}
+		// Add support for all viewable non-attachment post types
+		$add_support = ( 'attachment' !== $post_type ) && is_post_type_viewable( $post_type_object );
 
-		// Bail for attachments
-		if ( 'attachment' == $post_type )
-			return false;
+		// Bail when no support is desired. Enable plugin filtering.
+		if ( ! apply_filters( 'featured_images_add_post_type_support', $add_support, $post_type ) )
+			return;
 
-		// Base support on viewability, since WP 4.4+
-		$supports = is_post_type_viewable( get_post_type_object( $post_type ) );
-
-		return $supports;
+		// Add post type support
+		add_post_type_support( $post_type, 'featured-images' );
 	}
 
 	/**
@@ -291,7 +284,7 @@ final class Featured_Images {
 	public function post_add_metabox( $post_type, $post ) {
 
 		// Bail when the post type does not support Featured Images
-		if ( ! $this->post_type_supports( $post_type ) )
+		if ( ! post_type_supports( $post_type, 'featured-images' ) )
 			return;
 
 		// Register metabox
