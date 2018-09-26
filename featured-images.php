@@ -193,8 +193,8 @@ final class Featured_Images {
 		wp_register_script( 'featured-images-media', $this->assets_url . 'js/featured-images-media.js', array( 'jquery', 'media-models', 'media-views' ), $this->version, true );
 		wp_localize_script( 'featured-images-media', 'featuredImagesMedia', apply_filters( 'featured_images_media_l10n', array(
 			'l10n' => array(
-				'frameTitle'  => __( 'Select Images', 'featured-images' ),
-				'frameButton' => __( 'Choose Images', 'featured-images' ),
+				'frameTitle'  => esc_html__( 'Select images', 'featured-images' ),
+				'frameButton' => esc_html__( 'Choose images', 'featured-images' ),
 			),
 		) ) );
 
@@ -203,17 +203,6 @@ final class Featured_Images {
 
 		// Editor
 		wp_register_script( 'featured-images-editor', $this->assets_url . 'js/featured-images-editor.js', array( 'jquery', 'featured-images-media' ), $this->version, true );
-		wp_localize_script( 'featured-images-editor', 'featuredImagesEditor', apply_filters( 'featured_images_editor_l10n', array(
-			'l10n' => array(
-				'frameTitle' => __( 'Select Featured Images', 'featured-images' ),
-			),
-			'settings' => array(
-				'minWidth'  => 0,
-				'minHeight' => 0,
-				'maxWidth'  => 9999,
-				'maxHeight' => 9999,
-			),
-		) ) );
 	}
 
 	/**
@@ -261,6 +250,11 @@ final class Featured_Images {
 	 * @param WP_Post_Type $post_type_object Post type object
 	 */
 	public function registered_post_type( $post_type, $post_type_object ) {
+		global $wp_post_types;
+
+		// Bail when plugin support is already declared
+		if ( post_type_supports( $post_type, 'featured-images' ) )
+			return;
 
 		// Add support for all viewable non-attachment post types
 		$add_support = ( 'attachment' !== $post_type ) && is_post_type_viewable( $post_type_object );
@@ -271,6 +265,13 @@ final class Featured_Images {
 
 		// Add post type support
 		add_post_type_support( $post_type, 'featured-images' );
+
+		// Add extra post type labels
+		$post_type_object->labels->featured_images     = esc_html_x( 'Featured Images',     'Post type label', 'featured-images' );
+		$post_type_object->labels->set_featured_images = esc_html_x( 'Set featured images', 'Post type label', 'featured-images' );
+
+		// Update global post type object
+		$wp_post_types[ $post_type ] = $post_type_object;
 	}
 
 	/**
@@ -287,11 +288,25 @@ final class Featured_Images {
 		if ( ! post_type_supports( $post_type, 'featured-images' ) )
 			return;
 
-		// Register metabox
-		add_meta_box( 'featured-images', __( 'Featured Images', 'featured-images' ), 'featured_images_post_metabox', null, 'side', 'default', null );
+		$post_type_object = get_post_type_object( $post_type );
+
+		// Register plugin metabox
+		add_meta_box( 'featured-images', $post_type_object->labels->featured_images, 'featured_images_post_metabox', null, 'side', 'default', null );
 
 		// Enqueue scripts
 		wp_enqueue_script( 'featured-images-editor' );
+		wp_localize_script( 'featured-images-editor', 'featuredImagesEditor', apply_filters( 'featured_images_editor_l10n', array(
+			'l10n' => array(
+				'frameTitle'  => $post_type_object->labels->featured_images,
+				'frameButton' => $post_type_object->labels->set_featured_images,
+			),
+			'settings' => array(
+				'minWidth'  => 0,
+				'minHeight' => 0,
+				'maxWidth'  => 9999,
+				'maxHeight' => 9999,
+			),
+		) ) );
 
 		// Append styles
 		wp_add_inline_style( 'wp-admin', "

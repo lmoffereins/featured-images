@@ -200,8 +200,8 @@ function featured_images_post_metabox( $post, $echo = true ) {
 	</div>
 	<div class="actions">
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
-		<button type="button" class="button remove-button"><?php _e( 'Remove All', 'featured-images' ); ?></button>
-		<button type="button" class="button upload-button" id="featured-images-button"><?php _e( 'Change Selection', 'featured-images' ); ?></button>
+		<button type="button" class="button remove-button"><?php esc_html_e( 'Remove all', 'featured-images' ); ?></button>
+		<button type="button" class="button upload-button" id="featured-images-button"><?php esc_html_e( 'Change images', 'featured-images' ); ?></button>
 		<div style="clear:both"></div>
 		<?php endif; ?>
 	</div>
@@ -213,7 +213,7 @@ function featured_images_post_metabox( $post, $echo = true ) {
 			<div class="placeholder">
 				<div class="inner">
 					<span>
-						<?php _e( 'No images selected', 'featured-images' ); ?>
+						<?php esc_html_e( 'No images selected', 'featured-images' ); ?>
 					</span>
 				</div>
 			</div>
@@ -221,7 +221,7 @@ function featured_images_post_metabox( $post, $echo = true ) {
 	</div>
 	<div class="actions">
 		<?php if ( current_user_can( 'upload_files' ) ) : ?>
-		<button type="button" class="button upload-button" id="featured-images-button"><?php _e( 'Select Images', 'featured-images' ); ?></button>
+		<button type="button" class="button upload-button" id="featured-images-button"><?php esc_html_e( 'Select images', 'featured-images' ); ?></button>
 		<?php endif; ?>
 		<div style="clear:both"></div>
 	</div>

@@ -7,7 +7,8 @@
 
 /* global wp, featuredImagesMedia, featuredImagesEditor */
 ( function( $, _ ) {
-	var FeaturedImagesLibrary = wp.media.controller.FeaturedImagesLibrary;
+	var FeaturedImagesLibrary = wp.media.controller.FeaturedImagesLibrary,
+	    l10n = Object.assign( {}, featuredImagesMedia.l10n, featuredImagesEditor.l10n );
 
 	/**
 	 * Construct implementation of the FeaturedImagesLibrary modal controller
@@ -99,13 +100,13 @@
 			// Setup the media modal frame
 			this._frame = new wp.media.view.MediaFrame.FeaturedImagesFrame({
 				button: {
-					text: featuredImagesMedia.l10n.frameButton
+					text: l10n.frameButton
 				},
 				states: [
 
 					// Display the media browser state
 					new wp.media.controller.FeaturedImages({
-						title: featuredImagesEditor.l10n.frameTitle,
+						title: l10n.frameTitle,
 
 						// Query the requested media items
 						library: new wp.media.model.FeaturedImagesQuery( null, {
