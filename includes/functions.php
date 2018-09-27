@@ -113,6 +113,8 @@ function get_featured_images( $object = null, $type = 'post' ) {
  *
  * @since 1.0.0
  *
+ * @uses apply_filters() Calls 'set_featured_images'
+ *
  * @param int|array $images Optional. New featured images. Attachment ID or array thereof.
  *                          Defaults to an empty array which effectively deletes all references.
  * @param int|WP_Post $object Optional. Object ID or post object. Defaults to current post.
@@ -120,6 +122,10 @@ function get_featured_images( $object = null, $type = 'post' ) {
  * @return bool Update success.
  */
 function set_featured_images( $images = array(), $object = null, $type = 'post' ) {
+
+	// Define return variable
+	$retval = false;
+	$images = (array) $images;
 
 	switch ( $type ) {
 		case 'post' :
@@ -145,8 +151,7 @@ function set_featured_images( $images = array(), $object = null, $type = 'post' 
 			}
 	}
 
-	// If we made it to here, the update succeeded.
-	return true;
+	return (bool) apply_filters( 'set_featured_images', $retval, $images, $object, $type );
 }
 
 /** Admin *********************************************************************/
