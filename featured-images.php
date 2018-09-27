@@ -11,7 +11,7 @@
  * Plugin Name:       Featured Images
  * Description:       Attach multiple featured images to posts or other objects
  * Plugin URI:        https://github.com/lmoffereins/featured-images/
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            Laurens Offereins
  * Author URI:        https://github.com/lmoffereins/
  * Text Domain:       featured-images
@@ -68,7 +68,7 @@ final class Featured_Images {
 
 		/** Versions **********************************************************/
 
-		$this->version      = '1.0.1';
+		$this->version      = '1.1.0';
 		$this->db_version   = 20180927;
 
 		/** Paths *************************************************************/

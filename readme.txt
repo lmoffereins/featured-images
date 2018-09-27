@@ -3,7 +3,7 @@ Contributors: Offereins
 Tags: featured, images, multiple
 Requires at least: 4.4
 Tested up to: 4.9.8
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

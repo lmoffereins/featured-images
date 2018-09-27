@@ -71,7 +71,7 @@ class Customize_Featured_Images_Control extends WP_Customize_Image_Control {
 	/**
 	 * Constructor.
 	 *
-	 * @since 3.4.0
+	 * @since 1.0.0
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
