@@ -229,7 +229,7 @@
 				selection.add( attachment ? [ attachment ] : [] );
 			});
 		}
-	})
+	});
 
 	/**
 	 * Custom implementation of the Query model

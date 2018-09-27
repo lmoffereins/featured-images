@@ -31,20 +31,10 @@ if ( ! class_exists( 'Featured_Images' ) && ! function_exists( 'featured_images'
 final class Featured_Images {
 
 	/**
-	 * Holds internally enqueued scripts
-	 *
-	 * @since 1.0.0
-	 * @var array
-	 */
-	private $enqueue = array();
-
-	/**
 	 * Setup and return the singleton pattern
 	 *
 	 * @since 1.0.0
 	 *
-	 * @uses Featured_Images::setup_globals()
-	 * @uses Featured_Images::setup_actions()
 	 * @return The single Featured_Images
 	 */
 	public static function instance() {
@@ -245,6 +235,8 @@ final class Featured_Images {
 	 * Add plugin post type support when the post type is registered
 	 *
 	 * @since 1.0.0
+	 *
+	 * @uses apply_filters() Calls 'featured_images_add_post_type_support'
 	 *
 	 * @param string $post_type Post type name
 	 * @param WP_Post_Type $post_type_object Post type object
