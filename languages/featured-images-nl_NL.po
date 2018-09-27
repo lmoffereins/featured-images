@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Featured Images\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-27 15:55+0000\n"
+"PO-Revision-Date: 2018-09-27 16:02+0000\n"
+"Last-Translator: Laurens Offereins <lmoffereins@gmail.com>\n"
+"Language-Team: Nederlands\n"
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#. Description of the plugin
+msgid "Attach multiple featured images to posts or other objects"
+msgstr ""
+"Voeg meerdere uitgelichte afbeeldingen toe aan berichten en andere objecten"
+
+#: ../../../../src/wp-content/plugins/featured-images/includes/functions.php:204
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:83
+msgid "Change images"
+msgstr "Wijzig afbeeldingen"
+
+#: ../../../../src/wp-content/plugins/featured-images/featured-images.php:187
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:88
+msgid "Choose images"
+msgstr "Afbeeldingen kiezen"
+
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:84
+msgid "Default"
+msgstr "Standaard"
+
+#. Name of the plugin
+msgid "Featured Images"
+msgstr "Uitgelichte afbeeldingen"
+
+#. Author URI of the plugin
+msgid "https://github.com/lmoffereins/"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/lmoffereins/featured-images/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Laurens Offereins"
+msgstr ""
+
+#: ../../../../src/wp-content/plugins/featured-images/includes/functions.php:216
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:86
+msgid "No images selected"
+msgstr "Geen afbeeldingen geselecteerd"
+
+#: ../../../../src/wp-content/plugins/featured-images/featured-images.php:262
+msgctxt "Post type label"
+msgid "Featured Images"
+msgstr "Uitgelichte afbeeldingen"
+
+#: ../../../../src/wp-content/plugins/featured-images/featured-images.php:263
+msgctxt "Post type label"
+msgid "Set featured images"
+msgstr "Uitgelichte afbeeldingen kiezen"
+
+#: ../../../../src/wp-content/plugins/featured-images/includes/functions.php:203
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:85
+msgid "Remove all"
+msgstr "Alle verwijderen"
+
+#: ../../../../src/wp-content/plugins/featured-images/featured-images.php:186
+#: ../../../../src/wp-content/plugins/featured-images/includes/functions.php:224
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:82
+#: ../../../../src/wp-content/plugins/featured-images/includes/classes/class-customize-featured-images-control.php:87
+msgid "Select images"
+msgstr "Selecteer afbeeldingen"
