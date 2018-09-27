@@ -6,13 +6,17 @@ Attach multiple featured images to posts or other objects.
 
 > This WordPress plugin requires at least [WordPress](https://wordpress.org) 4.4.
 
-This plugin adds an additional 'Featured Images' metabox feature - note the extra 's' - to your (custom) post (type)'s edit page. Using the Media Library you can attach any number of images to the post. To display the images in your theme, use `get_featured_images()`. For an example, see the following code:
+This plugin replaces the 'Featured Image' post metabox with one for selecting multiple Featured Images in your (custom) post (type)'s edit page. Using the Media Library you can attach any number of images to the post. The plugin uses the default post thumbnail data structure (metakey `_thumbnail_id`), so your default post thumbnail logic still works, just with the first image of your selection.
+
+To display multiple images in your theme, use `get_featured_images()`. For an example, see the following code:
 
 ```
 // Make sure the plugin is available
 if ( function_exists( 'featured_images' ) ) {
+
 	// When not in The Loop, provide a post ID to the function.
-	foreach ( get_featured_images() as $attachment_id ) {
+	foreach ( get_featured_images( $post_id ) as $attachment_id ) {
+
 		// Display the image, for example using `wp_get_attachment_image( $attachment_id )`
 	}
 }
