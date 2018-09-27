@@ -73,7 +73,6 @@
 			wp.media.post( 'set_featured_images', {
 				json:      true,
 				object_id: settings.post.id,
-				type:      'post',
 				images:    settings.post.featuredImages,
 				_wpnonce:  settings.post.nonce
 			}).done( function( html ) {

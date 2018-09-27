@@ -82,30 +82,27 @@ function featured_images_db_version_raw() {
  * @uses apply_filters() Calls 'get_featured_images'
  *
  * @param int|WP_Post $object Optional. Object ID or post object. Defaults to current post.
- * @param string $type Optional. Object type. Defaults to 'post'.
+ * @param string $object_type Optional. Object type. Defaults to 'post_type'.
  * @return array|false Set of attachment ids or false when object was not found.
  */
-function get_featured_images( $object = null, $type = 'post' ) {
+function get_featured_images( $object = null, $object_type = 'post_type' ) {
 
 	// Define default variable
 	$images = array();
 
 	// Switch object type
-	switch ( $type ) {
-
-		// Default to 'post'
-		case 'post' :
-		default :
-
-			// Bail when the post is not valid
-			if ( ! $object = get_post( $object ) )
-				return false;
+	switch ( $object_type ) {
+		case 'post_type' :
 
 			// Images are stored as post meta
-			$images = get_post_meta( $object->ID, '_thumbnail_id', false );
+			if ( $post = get_post( $object ) ) {
+				$images = get_post_meta( $post->ID, '_thumbnail_id', false );
+			}
+
+			break;
 	}
 
-	return (array) apply_filters( 'get_featured_images', $images, $object, $type );
+	return (array) apply_filters( 'get_featured_images', $images, $object, $object_type );
 }
 
 /**
@@ -118,40 +115,44 @@ function get_featured_images( $object = null, $type = 'post' ) {
  * @param int|array $images Optional. New featured images. Attachment ID or array thereof.
  *                          Defaults to an empty array which effectively deletes all references.
  * @param int|WP_Post $object Optional. Object ID or post object. Defaults to current post.
- * @param string $type Optional. Object type. Defaults to 'post'.
+ * @param string $object_type Optional. Object type. Defaults to 'post_type'.
  * @return bool Update success.
  */
-function set_featured_images( $images = array(), $object = null, $type = 'post' ) {
+function set_featured_images( $images = array(), $object = null, $object_type = 'post_type' ) {
 
 	// Define return variable
 	$retval = false;
 	$images = (array) $images;
 
-	switch ( $type ) {
-		case 'post' :
-		default :
+	switch ( $object_type ) {
+		case 'post_type' :
 
-			// Bail when the post is not valid
-			if ( ! $object = get_post( $object ) )
-				return false;
+			// Get the post
+			if ( $post = get_post( $object ) ) {
 
-			// Remove all current references
-			delete_post_meta( $object->ID, '_thumbnail_id' );
+				// Remove all current references
+				delete_post_meta( $post->ID, '_thumbnail_id' );
 
-			// Define new featured images
-			if ( ! empty( $images ) ) {
-				foreach ( (array) $images as $attachment ) {
+				// Define new featured images
+				if ( ! empty( $images ) ) {
+					foreach ( $images as $attachment ) {
 
-					// Skip when the attachment is not valid
-					if ( ! $attachment = get_post( $attachment ) )
-						continue;
+						// Skip when the attachment is not valid
+						if ( ! $attachment = get_post( $attachment ) )
+							continue;
 
-					add_post_meta( $object->ID, '_thumbnail_id', $attachment->ID );
+						add_post_meta( $post->ID, '_thumbnail_id', $attachment->ID );
+					}
 				}
+
+				// If we made it to here, the update succeeded.
+				$retval = true;
 			}
+
+			break;
 	}
 
-	return (bool) apply_filters( 'set_featured_images', $retval, $images, $object, $type );
+	return (bool) apply_filters( 'set_featured_images', $retval, $images, $object, $object_type );
 }
 
 /** Admin *********************************************************************/

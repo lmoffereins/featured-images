@@ -208,7 +208,7 @@ final class Featured_Images {
 
 		// Add featured images to the post's media settings
 		if ( is_a( $post, 'WP_Post' ) && post_type_supports( $post->post_type, 'featured-images' ) ) {
-			$images = get_featured_images( $post, 'post' );
+			$images = get_featured_images( $post );
 			$settings['post']['featuredImages'] = $images ? $images : -1;
 		}
 
@@ -331,37 +331,43 @@ final class Featured_Images {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @uses apply_filters() Calls 'featured_images_ajax_check_referer'
+	 *
 	 * @param int $object_id Object ID
-	 * @param string $type Object type
+	 * @param string $object_type Object type
 	 * @param array|int $images Attachment ids or '-1'
 	 */
 	public function ajax_set_featured_images() {
 		$json = ! empty( $_REQUEST['json'] ); // New-style request
 
-		$object_id = intval( $_POST['object_id'] );
-		$type      = $_POST['type'];
+		// Handle posts by default
+		$object_id   = intval( $_POST['object_id'] );
+		$object_type = isset( $_POST['object_type'] ) ? $_POST['object_type'] : 'post_type';
 
-		switch ( $type ) {
-			case 'post' :
-			default :
-				if ( ! $post = get_post( $object_id ) )
-					wp_die( -1 );
-				if ( ! current_user_can( 'edit_post', $object_id ) )
-					wp_die( -1 );
+		// Check post type referers
+		if ( 'post_type' === $object_type ) {
+			if ( ! $post = get_post( $object_id ) )
+				wp_die( -1 );
+			if ( ! current_user_can( 'edit_post', $object_id ) )
+				wp_die( -1 );
 
-				if ( $json ) {
-					check_ajax_referer( "update-post_$object_id" );
-				} else {
-					check_ajax_referer( "set_featured_images-$object_id" );
-				}
+			if ( $json ) {
+				check_ajax_referer( "update-post_$object_id" );
+			} else {
+				check_ajax_referer( "set_featured_images-$object_id" );
+			}
 		}
+
+		// Bail when the ajax referer does not check out
+		if ( ! apply_filters( 'featured_images_ajax_check_referer', true, $object_id, $object_type ) )
+			return;
 
 		$images = array_map( 'intval', (array) $_POST['images'] );
 
 		// Delete featured images
 		if ( '-1' == $_POST['images'] ) {
-			if ( set_featured_images( array(), $object_id, $type ) ) {
-				$return = $this->ajax_get_return_message( $object_id, $type );
+			if ( set_featured_images( array(), $object_id, $object_type ) ) {
+				$return = $this->ajax_get_return_message( $object_id, $object_type );
 				$json ? wp_send_json_success( $return ) : wp_die( $return );
 			} else {
 				wp_die( 0 );
@@ -369,8 +375,8 @@ final class Featured_Images {
 		}
 
 		// Update featured images
-		if ( set_featured_images( $images, $object_id, $type ) ) {
-			$return = $this->ajax_get_return_message( $object_id, $type );
+		if ( set_featured_images( $images, $object_id, $object_type ) ) {
+			$return = $this->ajax_get_return_message( $object_id, $object_type );
 			$json ? wp_send_json_success( $return ) : wp_die( $return );
 		}
 
@@ -382,19 +388,27 @@ final class Featured_Images {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @uses apply_filters() Calls 'featured_images_ajax_get_return_message'
+	 *
 	 * @param int $object Object ID
-	 * @param string $type Object type
+	 * @param string $object_type Optional. Object type. Defaults to 'post_type'.
 	 * @return mixed AJAX return message
 	 */
-	public function ajax_get_return_message( $object, $type = 'post' ) {
+	public function ajax_get_return_message( $object, $object_type = 'post_type' ) {
 
-		switch ( $type ) {
-			case 'post' :
-			default :
+		// Define return variable
+		$retval = '';
+
+		switch ( $object_type ) {
+			case 'post_type' :
+
+				// Return new metabox layout
 				$retval = featured_images_post_metabox( $object, false );
+
+				break;
 		}
 
-		return $retval;
+		return apply_filters( 'featured_images_ajax_get_return_message', $retval, $object, $object_type );
 	}
 }
 
