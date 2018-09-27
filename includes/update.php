@@ -178,15 +178,37 @@ function featured_images_version_updater() {
 	// Get the raw database version
 	$raw_db_version = (int) featured_images_get_db_version_raw();
 
-	/** 1.1.0 Branch ********************************************************/
+	/** 1.1.x Branch ********************************************************/
 
 	// 1.1.0
-	if ( $raw_db_version < 20180918 ) {
-		// Do stuff
+	if ( $raw_db_version < 20180927 ) {
+		featured_images_update_version_110();
 	}
 
 	/** All done! ***********************************************************/
 
 	// Bump the version
 	featured_images_version_bump();
+}
+
+/**
+ * Update routines for version 1.1.0
+ *
+ * @since 1.1.0
+ *
+ * @uses WPDB $wpdb
+ */
+function featured_images_update_version_110() {
+	global $wpdb;
+
+	/**
+	 * Update plugin post meta keys to '_thumbnail_id'
+	 */
+	$wpdb->update(
+		$wpdb->postmeta,
+		array( 'meta_key' => '_thumbnail_id' ),
+		array( 'meta_key' => 'featured-images' ),
+		array( '%s' ),
+		array( '%s' )
+	);
 }

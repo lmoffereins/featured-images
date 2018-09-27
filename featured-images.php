@@ -79,7 +79,7 @@ final class Featured_Images {
 		/** Versions **********************************************************/
 
 		$this->version      = '1.0.1';
-		$this->db_version   = 20180918;
+		$this->db_version   = 20180927;
 
 		/** Paths *************************************************************/
 
@@ -289,6 +289,9 @@ final class Featured_Images {
 			return;
 
 		$post_type_object = get_post_type_object( $post_type );
+
+		// Remove default featured image metabox
+		remove_meta_box( 'postimagediv', null, 'side' );
 
 		// Register plugin metabox
 		add_meta_box( 'featured-images', $post_type_object->labels->featured_images, 'featured_images_post_metabox', null, 'side', 'default', null );

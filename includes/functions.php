@@ -102,7 +102,7 @@ function get_featured_images( $object = null, $type = 'post' ) {
 				return false;
 
 			// Images are stored as post meta
-			$images = get_post_meta( $object->ID, 'featured-images', false );
+			$images = get_post_meta( $object->ID, '_thumbnail_id', false );
 	}
 
 	return (array) apply_filters( 'get_featured_images', $images, $object, $type );
@@ -130,7 +130,7 @@ function set_featured_images( $images = array(), $object = null, $type = 'post' 
 				return false;
 
 			// Remove all current references
-			delete_post_meta( $object->ID, 'featured-images' );
+			delete_post_meta( $object->ID, '_thumbnail_id' );
 
 			// Define new featured images
 			if ( ! empty( $images ) ) {
@@ -140,7 +140,7 @@ function set_featured_images( $images = array(), $object = null, $type = 'post' 
 					if ( ! $attachment = get_post( $attachment ) )
 						continue;
 
-					add_post_meta( $object->ID, 'featured-images', $attachment->ID );
+					add_post_meta( $object->ID, '_thumbnail_id', $attachment->ID );
 				}
 			}
 	}
