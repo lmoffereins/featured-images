@@ -256,8 +256,8 @@ final class Featured_Images {
 		if ( post_type_supports( $post_type, 'featured-images' ) )
 			return;
 
-		// Add support for all viewable non-attachment post types
-		$add_support = ( 'attachment' !== $post_type ) && is_post_type_viewable( $post_type_object );
+		// Add support for all post types that already support post thumbnails
+		$add_support = ( 'attachment' !== $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 
 		// Bail when no support is desired. Enable plugin filtering.
 		if ( ! apply_filters( 'featured_images_add_post_type_support', $add_support, $post_type ) )
