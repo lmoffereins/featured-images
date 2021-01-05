@@ -244,19 +244,20 @@ final class Featured_Images {
 	public function registered_post_type( $post_type, $post_type_object ) {
 		global $wp_post_types;
 
-		// Bail when plugin support is already declared
-		if ( post_type_supports( $post_type, 'featured-images' ) )
-			return;
+		// When plugin support is not yet declared
+		if ( ! post_type_supports( $post_type, 'featured-images' ) ) {
 
-		// Add support for all post types that already support post thumbnails
-		$add_support = ( 'attachment' !== $post_type ) && post_type_supports( $post_type, 'thumbnail' );
+			// Add support for all post types that already support post thumbnails
+			$add_support = ( 'attachment' !== $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 
-		// Bail when no support is desired. Enable plugin filtering.
-		if ( ! apply_filters( 'featured_images_add_post_type_support', $add_support, $post_type ) )
-			return;
+			// Bail when no support is desired. Enable plugin filtering.
+			if ( ! apply_filters( 'featured_images_add_post_type_support', $add_support, $post_type ) ) {
+				return;
+			}
 
-		// Add post type support
-		add_post_type_support( $post_type, 'featured-images' );
+			// Add post type support
+			add_post_type_support( $post_type, 'featured-images' );
+		}
 
 		// Add extra post type labels
 		$post_type_object->labels->featured_images     = esc_html_x( 'Featured Images',     'Post type label', 'featured-images' );
