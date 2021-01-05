@@ -35,6 +35,9 @@ Activate Featured Images in the "Plugins" admin panel using the "Activate" link.
 
 == Changelog ==
 
+= 1.1.1 =
+* Fixed bug where plugin post type labels would not register properly
+
 = 1.1.0 =
 * Use the same data structure for both single and multiple featured images for posts (metakey `_thumbnail_id`)
 * Define and detect plugin post type support using standard WP functions, like `post_type_supports()`
